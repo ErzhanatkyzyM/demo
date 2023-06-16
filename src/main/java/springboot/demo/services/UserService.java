@@ -6,7 +6,9 @@ import springboot.demo.exception.UserNotFoundException;
 
 public interface UserService extends UserDetailsService {
 
-    User getUserByEmail(String email) throws UserNotFoundException;
+    User getUserByEmail(String email);
+
+    User getUser(Long id);
 
     User createUser(User user);
 

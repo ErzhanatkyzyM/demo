@@ -3,6 +3,7 @@ package springboot.demo.services.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import springboot.demo.entities.Course;
+import springboot.demo.exception.CourseAlreadyExistsException;
 import springboot.demo.exception.CourseNotFoundException;
 import springboot.demo.repositories.CourseRepositories;
 import springboot.demo.services.CourseService;
@@ -12,12 +13,16 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CourseServiceImpl implements CourseService {
+
     private final CourseRepositories courseRepositories;
 
     @Override
-    public Course addCourse(Course course) {
+    public Course addCourse(Course course)  {
+        if (courseRepositories.existsByFullName(course.getFullName())){
+            throw new CourseAlreadyExistsException("the course already exists: " + course.getFullName());
+            }
         return courseRepositories.save(course);
-    }
+       }
 
     @Override
     public List<Course> getAllCourse() {
@@ -26,7 +31,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course getCourse(Long id) {
-        Course course = courseRepositories.findById(id).orElseThrow(() -> new CourseNotFoundException("User not found: " + id));
+        Course course = courseRepositories.findById(id).orElseThrow(() -> new CourseNotFoundException("Course not found: " + id));
         return course;
     }
 
@@ -42,6 +47,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course updateCourse(Course course) {
-        courseRepositories.findById(course.getId()).orElseThrow(()-> new CourseNotFoundException("User not found: " + course.getId()));
+        courseRepositories.findById(course.getId()).orElseThrow(()-> new CourseNotFoundException("Course not found: " + course.getId()));
         return courseRepositories.save(course);}
 }
