@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import springboot.demo.entities.Course;
 import springboot.demo.entities.User;
+import springboot.demo.exception.CourseNotFoundException;
 import springboot.demo.exception.UserNotFoundException;
 import springboot.demo.repositories.UserRepositories;
 import springboot.demo.services.UserService;
@@ -30,6 +32,12 @@ public class UserServiceImpl implements UserService {
         }
 
         throw new UserNotFoundException("user email not found!");
+    }
+
+    @Override
+    public User getUser(Long id) {
+        User user = userRepositories.findById(id).orElseThrow(() -> new UserNotFoundException("Course not found: " + id));
+        return user;
     }
 
     @Override

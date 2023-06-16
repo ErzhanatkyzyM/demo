@@ -1,6 +1,5 @@
 package springboot.demo.entities;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
