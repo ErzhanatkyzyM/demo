@@ -1,7 +1,8 @@
 package springboot.demo.entities;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")

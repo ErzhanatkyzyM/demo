@@ -2,6 +2,7 @@ package springboot.demo.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import springboot.demo.entities.Course;
 import springboot.demo.exception.CourseAlreadyExistsException;
@@ -20,6 +21,7 @@ public class CourseController {
     }
 
     @PostMapping(path = "/addCourse")
+    @PreAuthorize("hasAnyRole('Role_Admin', 'Role_Teacher')")
     public ResponseEntity<String> addCourse(@RequestBody Course course) {
         try {
             Course addedCourse = courseService.addCourse(course);
@@ -30,11 +32,13 @@ public class CourseController {
     }
 
     @GetMapping(path = "/getAllCourse")
+    @PreAuthorize("hasAnyRole('Role_Admin', 'Role_Teacher')")
     public List<Course> getAllCourse() {
         return courseService.getAllCourse();
     }
 
     @GetMapping(path = "/getCourse/{id}")
+    @PreAuthorize("hasAnyRole('Role_Admin', 'Role_Teacher')")
     public ResponseEntity<Course> getCourse(@PathVariable Long id) {
         try {
             Course course = courseService.getCourse(id);
@@ -46,6 +50,7 @@ public class CourseController {
 
 
     @RequestMapping(path = "/deleteCourse", method = RequestMethod.DELETE)
+    @PreAuthorize("hasAnyRole('Role_Admin', 'Role_Teacher')")
     public ResponseEntity<String> deleteCourse(@RequestParam(name = "id") Long id) {
         Course course = courseService.getCourse(id);
         if (course != null) {
@@ -57,6 +62,7 @@ public class CourseController {
     }
 
     @PutMapping("/updateCourse")
+    @PreAuthorize("hasAnyRole('Role_Admin', 'Role_Teacher')")
     public ResponseEntity<String> updateCourse(@RequestParam(name = "id") Long id,
                                                @RequestParam(name = "course_name", defaultValue = "Course Item") String name) {
         Course course = courseService.getCourse(id);

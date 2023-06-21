@@ -1,7 +1,9 @@
 package springboot.demo.entities;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -19,4 +21,6 @@ public class Course {
     @Column(name = "course_name")
     private String fullName;
 
+    @ManyToMany(mappedBy = "courses")
+    private List<User> users;
 }

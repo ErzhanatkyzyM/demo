@@ -1,28 +1,23 @@
 package springboot.demo.services.impl;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import springboot.demo.entities.Course;
+import org.springframework.transaction.annotation.Transactional;
 import springboot.demo.entities.User;
-import springboot.demo.exception.CourseNotFoundException;
 import springboot.demo.exception.UserNotFoundException;
 import springboot.demo.repositories.UserRepositories;
 import springboot.demo.services.UserService;
 
+import java.util.Optional;
+
 
 @Service
-@AllArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepositories userRepositories;
-
-
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return null;
-    }
 
     @Override
     public User getUserByEmail(String s) throws UserNotFoundException {
@@ -65,5 +60,21 @@ public class UserServiceImpl implements UserService {
     public User updateUser(User user) {
         userRepositories.findById(user.getId()).orElseThrow(() -> new UserNotFoundException("User not found: " + user.getId()));
         return userRepositories.save(user);
+    }
+
+    @Autowired
+    public UserServiceImpl(UserRepositories userRepositories) {
+        this.userRepositories = userRepositories;
+    }
+
+
+    public Optional<User> findByUsername(String username) {
+        Optional<User> user = userRepositories.findByUsername(username);
+        return user;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }
