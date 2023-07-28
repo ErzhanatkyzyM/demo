@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "course")
@@ -22,5 +23,5 @@ public class Course {
     private String fullName;
 
     @ManyToMany(mappedBy = "courses")
-    private List<User> users;
+    private Set<User> users;
 }

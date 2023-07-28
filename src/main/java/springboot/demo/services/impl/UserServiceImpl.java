@@ -68,10 +68,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public Optional<User> findByUsername(String username) {
-        Optional<User> user = userRepositories.findByUsername(username);
-        return user;
-    }
+//    public Optional<User> findByUsername(String username) {
+//        Optional<User> user = userRepositories.findByUsername(username);
+//        return user;
+  //  }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

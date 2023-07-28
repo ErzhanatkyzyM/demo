@@ -1,9 +1,12 @@
 package springboot.demo.entities;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -12,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,9 +31,9 @@ public class User {
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Roles> roles;
+    private Set<Roles> roles;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Course> courses;
+    private Set<Course> courses;
 
 }
